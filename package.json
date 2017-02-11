@@ -1,0 +1,31 @@
+{
+  "name": "yeps",
+  "version": "0.0.1",
+  "description": "Yet Another Promised Server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/evheniy/yeps.git"
+  },
+  "keywords": [
+    "promise",
+    "http",
+    "server",
+    "rest",
+    "fast",
+    "async",
+    "await",
+    "https",
+    "ssl",
+    "easy"
+  ],
+  "author": "Evheniy Bystrov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/evheniy/yeps/issues"
+  },
+  "homepage": "https://github.com/evheniy/yeps#readme"
+}

@@ -1,0 +1,1 @@
+module.exports = (req, res) => Promise.resolve({req, res});
