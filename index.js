@@ -5,16 +5,36 @@ module.exports = class {
     constructor() {
         debug('Server created');
         this.promises = [];
+        this.error = null;
+        this.context = {};
     }
 
-    then(f) {
-        this.promises.push(f);
+    then(fn) {
+        debug('New promise added');
+        this.promises.push(fn);
         return this;
     }
 
-    callback() {
+    catch(fn) {
+        debug('Error handler created');
+        this.error = fn;
+    }
+
+    resolve() {
         debug('Server started');
-        debug(this.promises);
-        return (req, res) => Promise.resolve({req, res}).then(ctx => promisify(ctx, this.promises));
+        return (req, res) => {
+            this.context = { req, res };
+            return Promise.resolve()
+                .then(() => promisify(this.context, this.promises))
+                .catch(error => {
+                    if (this.error) {
+                        debug('Custom error handler');
+                        this.error(error, this.context);
+                    } else {
+                        this.context.res.writeHead(500);
+                        this.context.res.end('Internal Server Error');
+                    }
+                });
+        };
     }
 };

@@ -1,4 +1,4 @@
-# Yet Another Promised Server
+# Yet Another Event Promised Server
 
 
 Simple promised node http request-response handler
@@ -48,6 +48,11 @@ app.js
       ctx.res.writeHead(200, {'Content-Type': 'text/plain'});
       ctx.res.end('okay');
     });
+    
+    app.catch(async (err, ctx) => {
+      ctx.res.writeHead(500);
+      ctx.res.end(err.message);
+    });
 
 bin/www
 
@@ -56,7 +61,7 @@ bin/www
     const http = require('http');
     const app = require('../app');
 
-    const server = http.createServer(app.callback());
+    const server = http.createServer(app.resolve());
     
     server.listen(process.env.PORT);
     

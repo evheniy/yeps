@@ -24,7 +24,7 @@ describe('YAPS test', () => {
             ctx.res.end(text);
         });
 
-        await chai.request(http.createServer(app.callback()))
+        await chai.request(http.createServer(app.resolve()))
             .get('/')
             .send()
             .then(res => {
@@ -55,7 +55,7 @@ describe('YAPS test', () => {
             ctx.res.end(text);
         });
 
-        await chai.request(http.createServer(app.callback()))
+        await chai.request(http.createServer(app.resolve()))
             .get('/')
             .send()
             .then(res => {
@@ -63,6 +63,53 @@ describe('YAPS test', () => {
                 expect(res.text).to.be.equal(text);
                 expect(res.headers['content-type']).to.be.equal(contentType);
                 expect(res.headers['content-length']).to.be.equal('4');
+                isTestFinished = true;
+            });
+
+        return expect(isTestFinished).is.true;
+    });
+
+    it('should test default error handler', async () => {
+
+        const text = 'error';
+        let isTestFinished = false;
+
+        app.then(async () => {
+            return Promise.reject(new Error(text));
+        });
+
+        await chai.request(http.createServer(app.resolve()))
+            .get('/')
+            .send()
+            .catch(err => {
+                expect(err.status).to.be.equal(500);
+                expect(err.message).to.be.equal('Internal Server Error');
+                isTestFinished = true;
+            });
+
+        return expect(isTestFinished).is.true;
+    });
+
+    it('should test error handler', async () => {
+
+        const text = 'error';
+        let isTestFinished = false;
+
+        app.then(async () => {
+            return Promise.reject(new Error(text));
+        });
+
+        app.catch(async (err, ctx) => {
+            ctx.res.writeHead(200);
+            ctx.res.end(err.message);
+        });
+
+        await chai.request(http.createServer(app.resolve()))
+            .get('/')
+            .send()
+            .then(res => {
+                expect(res).to.have.status(200);
+                expect(res.text).to.be.equal(text);
                 isTestFinished = true;
             });
 
