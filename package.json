@@ -8,7 +8,7 @@
     "lint:js": "./node_modules/.bin/eslint index.js tests",
     "test": "./node_modules/.bin/npm-run-all test:**",
     "test:security": "./node_modules/.bin/nsp check",
-    "test:coverage": "node --harmony ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- tests --recursive",
+    "test:coverage": "node --harmony ./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- tests --recursive",
     "report": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
     "clear": "./node_modules/.bin/rimraf coverage",
     "precommit": "npm run lint && npm test",
