@@ -10,6 +10,9 @@ Simple promised node http request-response handler
 [![devDependency Status](https://david-dm.org/evheniy/yeps/dev-status.svg)](https://david-dm.org/evheniy/yeps#info=devDependencies)
 [![NSP Status](https://img.shields.io/badge/NSP%20status-no%20vulnerabilities-green.svg)](https://travis-ci.org/evheniy/yeps)
 [![License](https://img.shields.io/npm/l/yeps.svg?style=flat-square)](https://raw.githubusercontent.com/evheniy/yeps/master/LICENSE)
+[![NPM Downloads](https://img.shields.io/npm/evheniy/yeps.svg)](https://npmjs.org/package/yeps)
+[![Linux Build](https://img.shields.io/travis/evheniy/yeps/master.svg?label=linux)](https://travis-ci.org/evheniy/)
+[![Windows Build](https://img.shields.io/appveyor/ci/evheniy/yeps/master.svg?label=windows)](https://ci.appveyor.com/project/evheniy/yeps)
 
 Node http server is simple and fast. But it works with callbacks:
 
