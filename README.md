@@ -63,5 +63,5 @@ bin/www
 package.json
 
     "scripts": {
-      "start": "node --harmony bin/www"
+      "start": "NODE_ENV=production PORT=3000 node --harmony bin/www"
     }
