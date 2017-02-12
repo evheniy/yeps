@@ -9,7 +9,7 @@ Simple promised node http request-response handler
 [![Dependency Status](https://david-dm.org/evheniy/yeps.svg)](https://david-dm.org/evheniy/yeps)
 [![devDependency Status](https://david-dm.org/evheniy/yeps/dev-status.svg)](https://david-dm.org/evheniy/yeps#info=devDependencies)
 [![NSP Status](https://img.shields.io/badge/NSP%20status-no%20vulnerabilities-green.svg)](https://travis-ci.org/evheniy/yeps)
-[![License](https://img.shields.io/npm/l/yeps.svg?style=flat-square)]()
+[![License](https://img.shields.io/npm/l/yeps.svg?style=flat-square)](https://raw.githubusercontent.com/evheniy/yeps/master/LICENSE)
 
 Node http server is simple and fast. But it works with callbacks:
 
