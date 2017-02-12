@@ -10,9 +10,7 @@ Simple promised node http request-response handler
 [![devDependency Status](https://david-dm.org/evheniy/yeps/dev-status.svg)](https://david-dm.org/evheniy/yeps#info=devDependencies)
 [![NSP Status](https://img.shields.io/badge/NSP%20status-no%20vulnerabilities-green.svg)](https://travis-ci.org/evheniy/yeps)
 
-## Simple node http server
-
-Node http is simple and fast server. But it works with callbacks:
+Node http server is simple and fast. But it works with callbacks:
 
     const http = require('http');
     
@@ -21,8 +19,6 @@ Node http is simple and fast server. But it works with callbacks:
       res.writeHead(200, {'Content-Type': 'text/plain'});
       res.end('okay');
     });
-    
-## Simple http server with promise
 
 If we want to use promise (and async await):
 
@@ -32,16 +28,22 @@ If we want to use promise (and async await):
     const server = http.createServer( (req, res) => {
       Promise.resolve({ req, res })
         .then(ctx => {
-          ctx.res.writeHead(200, {'Content-Type': 'text/plain'});
-          ctx.res.end('okay');
-          return ctx;
+          
+            ctx.res.writeHead(200, {'Content-Type': 'text/plain'});
+            ctx.res.end('okay');
+          
+            return ctx;
         });
     });
     
-## And the same with yaps - promise server
+## And the same with yaps:
+
+    npm i -S yaps
 
 app.js
 
+    const App = require('yaps');
+    
     const app = module.exports = new App();
     app.then(async ctx => {
       ctx.res.writeHead(200, {'Content-Type': 'text/plain'});
@@ -67,3 +69,9 @@ bin/www
      * Listen on provided port, on all network interfaces.
      */
     server.listen(process.env.PORT);
+    
+package.json
+
+    "scripts": {
+      "start": "node --harmony bin/www"
+    }
