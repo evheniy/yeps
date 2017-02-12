@@ -1,10 +1,18 @@
 {
   "name": "yeps",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Yet Another Promised Server",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "./node_modules/.bin/npm-run-all lint:**",
+    "lint:js": "./node_modules/.bin/eslint index.js tests",
+    "test": "./node_modules/.bin/npm-run-all test:**",
+    "test:security": "./node_modules/.bin/nsp check",
+    "test:coverage": "node --harmony ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- tests --recursive",
+    "report": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
+    "clear": "./node_modules/.bin/rimraf coverage",
+    "precommit": "npm run lint && npm test",
+    "prepush": "npm run lint && npm test"
   },
   "repository": {
     "type": "git",
@@ -27,5 +35,23 @@
   "bugs": {
     "url": "https://github.com/evheniy/yeps/issues"
   },
-  "homepage": "https://github.com/evheniy/yeps#readme"
+  "homepage": "https://github.com/evheniy/yeps#readme",
+  "dependencies": {
+    "yeps-promisify": "^0.0.3"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
+    "coveralls": "^2.11.16",
+    "debug": "^2.6.1",
+    "eslint": "^3.15.0",
+    "eslint-config-eslint": "^3.0.0",
+    "husky": "^0.13.1",
+    "istanbul": "^1.1.0-alpha.1",
+    "mocha": "^3.2.0",
+    "mocha-lcov-reporter": "^1.2.0",
+    "npm-run-all": "^4.0.1",
+    "nsp": "^2.6.2",
+    "rimraf": "^2.5.4"
+  }
 }

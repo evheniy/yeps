@@ -1,0 +1,17 @@
+{
+  "extends": "eslint",
+  "env": {
+    "es6": true,
+    "node": true,
+    "mocha": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 8,
+    "sourceType": "module"
+  },
+  "rules": {
+    "indent": ["error", 4, {"SwitchCase": 1}],
+    "quotes": ["error", "single"],
+    "no-unused-expressions": 0
+  }
+}
