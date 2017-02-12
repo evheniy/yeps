@@ -36,8 +36,11 @@
     "url": "https://github.com/evheniy/yeps/issues"
   },
   "homepage": "https://github.com/evheniy/yeps#readme",
+  "files": [
+    "index.js"
+  ],
   "dependencies": {
-    "yeps-promisify": "^0.0.3"
+    "yeps-promisify": "^0.0.4"
   },
   "devDependencies": {
     "chai": "^3.5.0",
