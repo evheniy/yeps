@@ -2,7 +2,7 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const http = require('http');
 const expect = chai.expect;
-const YAPS = require('../index');
+const App = require('../index');
 
 chai.use(chaiHttp);
 let app;
@@ -10,7 +10,7 @@ let app;
 describe('YAPS test', () => {
 
     beforeEach(() => {
-        app = new YAPS();
+        app = new App();
     });
 
     it('should test promise', async () => {
@@ -37,7 +37,7 @@ describe('YAPS test', () => {
         return expect(isTestFinished).is.true;
     });
 
-    it('should test couple promises', async () => {
+    it('should test chain of promises', async () => {
 
         const text = 'okay';
         const contentType = 'text/plain';
