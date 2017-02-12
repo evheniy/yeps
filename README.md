@@ -9,6 +9,7 @@ Simple promised node http request-response handler
 [![Dependency Status](https://david-dm.org/evheniy/yeps.svg)](https://david-dm.org/evheniy/yeps)
 [![devDependency Status](https://david-dm.org/evheniy/yeps/dev-status.svg)](https://david-dm.org/evheniy/yeps#info=devDependencies)
 [![NSP Status](https://img.shields.io/badge/NSP%20status-no%20vulnerabilities-green.svg)](https://travis-ci.org/evheniy/yeps)
+[![License](https://img.shields.io/npm/l/yeps.svg?style=flat-square)]()
 
 Node http server is simple and fast. But it works with callbacks:
 
@@ -70,3 +71,22 @@ package.json
     "scripts": {
       "start": "NODE_ENV=production PORT=3000 node --harmony bin/www"
     }
+    
+## Promise like middleware
+
+By default all app steps will be finished. Except one of them has rejected promise:
+
+    app.then(async ctx => {
+      ctx.res.writeHead(200);
+      ctx.res.end('test');
+      
+      return app.reject(); // or return Promise.reject()
+    });
+    
+    app.then(async () => {
+      // it wont work
+    });
+    
+    app.catch(async () => {
+      // it wont work
+    });

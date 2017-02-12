@@ -20,21 +20,21 @@ module.exports = class {
         this.error = fn;
     }
 
+    reject() {
+        return Promise.reject();
+    }
+
     resolve() {
         debug('Server started');
-        return (req, res) => {
+        return async (req, res) => {
             this.context = { req, res };
-            return Promise.resolve()
-                .then(() => promisify(this.context, this.promises))
-                .catch(error => {
-                    if (this.error) {
-                        debug('Custom error handler');
-                        this.error(error, this.context);
-                    } else {
-                        this.context.res.writeHead(500);
-                        this.context.res.end('Internal Server Error');
-                    }
-                });
+            try {
+                await promisify(this.context, this.promises);
+            } catch (error) {
+                if (error && this.error) {
+                    this.error(error, this.context);
+                }
+            }
         };
     }
 };
