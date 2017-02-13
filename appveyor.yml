@@ -10,5 +10,6 @@ test_script:
   - node --version
   - npm --version
   - npm run lint
-  - npm run test
+  - npm run test:security
+  - npm run test:code
 build: off

@@ -95,6 +95,32 @@ describe('YAPS test', () => {
         return expect(isTestFinished).is.true;
     });
 
+    it('should test error handler without Promise.reject()', async () => {
+
+        const text = 'error';
+        let isTestFinished = false;
+
+        app.then(async () => {
+            throw new Error(text);
+        });
+
+        app.catch(async (err, ctx) => {
+            ctx.res.writeHead(200);
+            ctx.res.end(err.message);
+        });
+
+        await chai.request(http.createServer(app.resolve()))
+            .get('/')
+            .send()
+            .then(res => {
+                expect(res).to.have.status(200);
+                expect(res.text).to.be.equal(text);
+                isTestFinished = true;
+            });
+
+        return expect(isTestFinished).is.true;
+    });
+
     it('should test breaking of promises chain', async () => {
 
         let isTestFinished = false;
