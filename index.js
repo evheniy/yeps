@@ -6,7 +6,6 @@ module.exports = class {
         debug('Server created');
         this.promises = [];
         this.error = null;
-        this.context = {};
     }
 
     then(fn) {
@@ -27,12 +26,12 @@ module.exports = class {
     resolve() {
         debug('Server started');
         return async (req, res) => {
-            this.context = { req, res };
+            const context = { req, res };
             try {
-                await promisify(this.context, this.promises);
+                await promisify(context, [...this.promises]);
             } catch (error) {
                 if (error && this.error) {
-                    this.error(error, this.context);
+                    this.error(error, context);
                 }
             }
         };
