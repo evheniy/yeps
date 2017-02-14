@@ -36,4 +36,16 @@ module.exports = class {
             }
         };
     }
+
+    all(fns) {
+        this.promises.push(async ctx => {
+            await Promise.all(fns.map(fn => fn(ctx)));
+        });
+    }
+
+    race(fns) {
+        this.promises.push(async ctx => {
+            await Promise.race(fns.map(fn => fn(ctx)));
+        });
+    }
 };
