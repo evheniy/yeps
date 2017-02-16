@@ -20,6 +20,7 @@ module.exports = class {
     }
 
     reject() {
+        debug('Reject');
         return Promise.reject();
     }
 
@@ -38,12 +39,14 @@ module.exports = class {
     }
 
     all(fns) {
+        debug('all');
         this.promises.push(async ctx => {
             await Promise.all(fns.map(fn => fn(ctx)));
         });
     }
 
     race(fns) {
+        debug('race');
         this.promises.push(async ctx => {
             await Promise.race(fns.map(fn => fn(ctx)));
         });
