@@ -52,7 +52,9 @@ describe('YAPS test', () => {
             ctx.res.end(text);
         });
 
-        await chai.request(http.createServer(app.resolve()))
+        const server = http.createServer(app.resolve());
+
+        await chai.request(server)
             .get('/')
             .send()
             .then(res => {
@@ -61,7 +63,7 @@ describe('YAPS test', () => {
                 expect(res.headers['content-type']).to.be.equal(contentType);
                 isTestFinished1 = true;
             });
-        await chai.request(http.createServer(app.resolve()))
+        await chai.request(server)
             .get('/')
             .send()
             .then(res => {
@@ -70,7 +72,7 @@ describe('YAPS test', () => {
                 expect(res.headers['content-type']).to.be.equal(contentType);
                 isTestFinished2 = true;
             });
-        await chai.request(http.createServer(app.resolve()))
+        await chai.request(server)
             .get('/')
             .send()
             .then(res => {
