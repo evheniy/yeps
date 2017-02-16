@@ -1,6 +1,6 @@
 {
   "name": "yeps",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Yet Another Event Promised Server",
   "main": "index.js",
   "scripts": {

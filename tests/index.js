@@ -21,6 +21,7 @@ describe('YAPS test', () => {
         let isTestFinished = false;
 
         app.then(async ctx => {
+            expect(ctx.app).to.be.equal(app);
             ctx.res.writeHead(200, {'Content-Type': contentType});
             ctx.res.end(text);
         });

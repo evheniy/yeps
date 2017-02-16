@@ -26,7 +26,7 @@ module.exports = class {
     resolve() {
         debug('Server started');
         return async (req, res) => {
-            const context = { req, res };
+            const context = { req, res, app: this };
             try {
                 await promisify(context, [...this.promises]);
             } catch (error) {

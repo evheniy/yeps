@@ -103,3 +103,10 @@ By default all app steps will be finished. Except one of them has rejected promi
     app.catch(async () => {
       // it wont work
     });
+    
+## Packages
+
+* [yeps-promisify](https://github.com/evheniy/yeps-promisify) - kernel of yeps
+* [yeps-benchmark](https://github.com/evheniy/yeps-benchmark) - performance comparison koa2, express and node http
+* [yeps-router](https://github.com/evheniy/yeps-router) - promise based router
+* [yeps-error](https://github.com/evheniy/yeps-error) - 404/500 error handler
