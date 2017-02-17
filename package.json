@@ -1,6 +1,6 @@
 {
   "name": "yeps",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Yet Another Event Promised Server",
   "main": "index.js",
   "scripts": {
@@ -41,7 +41,7 @@
     "index.js"
   ],
   "dependencies": {
-    "yeps-promisify": "^0.0.4"
+    "yeps-promisify": "^0.0.5"
   },
   "devDependencies": {
     "chai": "^3.5.0",
