@@ -48,13 +48,13 @@ If we want to use promise (and async await):
         });
     });
     
-## And the same with yaps:
+## And the same with yeps:
 
-    npm i -S yaps
+    npm i -S yeps
 
 app.js
 
-    const App = require('yaps');
+    const App = require('yeps');
     
     const app = module.exports = new App();
     
