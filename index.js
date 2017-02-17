@@ -28,7 +28,6 @@ module.exports = class {
         debug('Server started');
         return async (req, res) => {
             const context = { req, res, app: this };
-            const promises = [...this.promises];
             try {
                 await promisify(context, this.promises);
             } catch (error) {
@@ -36,7 +35,6 @@ module.exports = class {
                     this.error(error, context);
                 }
             }
-            this.promises = promises;
         };
     }
 
