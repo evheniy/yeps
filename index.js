@@ -5,7 +5,7 @@ module.exports = class {
     constructor() {
         debug('Server created');
         this.promises = [];
-        this.error = null;
+        this.error = [];
     }
 
     then(fn) {
@@ -15,8 +15,9 @@ module.exports = class {
     }
 
     catch(fn) {
-        debug('Error handler created');
-        this.error = fn;
+        debug('Error handler added');
+        this.error.push(fn);
+        return this;
     }
 
     reject() {
@@ -28,11 +29,16 @@ module.exports = class {
         debug('Server started');
         return async (req, res) => {
             const context = { req, res, app: this };
+            debug(context);
             try {
                 await promisify(context, this.promises);
+                debug('End promisify');
             } catch (error) {
-                if (error && this.error) {
-                    this.error(error, context);
+                debug('Error');
+                debug(error);
+                if (error && this.error.length) {
+                    debug('Error handlers');
+                    await Promise.all(this.error.map(fn => fn(error, context)));
                 }
             }
         };

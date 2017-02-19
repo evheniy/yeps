@@ -60,7 +60,7 @@ app.js
     
     app.then(async ctx => {
       ctx.res.writeHead(200, {'Content-Type': 'text/plain'});
-      ctx.res.end('okay');
+      ctx.res.end('Ok');
     });
     
     app.catch(async (err, ctx) => {
@@ -75,14 +75,14 @@ bin/www
     const http = require('http');
     const app = require('../app');
 
-    const server = http.createServer(app.resolve());
-    
-    server.listen(process.env.PORT);
+    http
+        .createServer(app.resolve());
+        .listen(parseInt(process.env.PORT || '3000', 10));
     
 package.json
 
     "scripts": {
-      "start": "NODE_ENV=production PORT=3000 node --harmony bin/www"
+      "start": "node --harmony bin/www"
     }
     
 ## Promise like middleware
@@ -90,23 +90,28 @@ package.json
 By default all app steps will be finished. Except one of them has rejected promise:
 
     app.then(async ctx => {
+      
       ctx.res.writeHead(200);
       ctx.res.end('test');
       
-      return app.reject(); // or return Promise.reject()
-    });
-    
-    app.then(async () => {
+      return app.reject();
+      
+    }).then(async () => {
+      
       // it wont work
-    });
     
-    app.catch(async () => {
+    }).catch(async () => {
+    
       // it wont work
+    
     });
     
 ## Packages
 
-* [yeps-promisify](https://github.com/evheniy/yeps-promisify) - kernel of yeps
+* [yeps-promisify](https://github.com/evheniy/yeps-promisify) - YEPS kernel
 * [yeps-benchmark](https://github.com/evheniy/yeps-benchmark) - performance comparison koa2, express and node http
-* [yeps-router](https://github.com/evheniy/yeps-router) - promise based router
-* [yeps-error](https://github.com/evheniy/yeps-error) - 404/500 error handler
+* [yeps-router](https://github.com/evheniy/yeps-router) - YEPS promise based router
+* [yeps-error](https://github.com/evheniy/yeps-error) - YEPS 404/500 error handler
+* [yeps-redis](https://github.com/evheniy/yeps-redis) - YEPS promise based redis client - ioredis
+* [yeps-logger](https://github.com/evheniy/yeps-logger) - YEPS Async logger - winston
+* [yeps-boilerplate](https://github.com/evheniy/yeps-boilerplate) - YEPS app boilerplate

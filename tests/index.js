@@ -36,7 +36,7 @@ describe('YAPS test', () => {
                 isTestFinished = true;
             });
 
-        return expect(isTestFinished).is.true;
+        expect(isTestFinished).is.true;
     });
 
     it('should test 3 calls', async () => {
@@ -84,7 +84,7 @@ describe('YAPS test', () => {
 
         expect(isTestFinished1).is.true;
         expect(isTestFinished2).is.true;
-        return expect(isTestFinished3).is.true;
+        expect(isTestFinished3).is.true;
     });
 
     it('should test chain of promises', async () => {
@@ -116,7 +116,7 @@ describe('YAPS test', () => {
                 isTestFinished = true;
             });
 
-        return expect(isTestFinished).is.true;
+        expect(isTestFinished).is.true;
     });
 
     it('should test error handler', async () => {
@@ -142,7 +142,7 @@ describe('YAPS test', () => {
                 isTestFinished = true;
             });
 
-        return expect(isTestFinished).is.true;
+        expect(isTestFinished).is.true;
     });
 
     it('should test error handler without Promise.reject()', async () => {
@@ -168,7 +168,44 @@ describe('YAPS test', () => {
                 isTestFinished = true;
             });
 
-        return expect(isTestFinished).is.true;
+        expect(isTestFinished).is.true;
+    });
+
+    it('should test 2 error handlers', async () => {
+
+        const text = 'error';
+        let isTestFinished1 = false;
+        let isTestFinished2 = false;
+        let isTestFinished3 = false;
+
+        app.then(async () => {
+            return Promise.reject(new Error(text));
+        });
+
+        app.catch(async (err, ctx) => {
+            isTestFinished1 = true;
+
+            ctx.res.writeHead(200);
+            ctx.res.end(err.message);
+
+        }).catch(async () => {
+
+            isTestFinished2 = true;
+
+        });
+
+        await chai.request(http.createServer(app.resolve()))
+            .get('/')
+            .send()
+            .then(res => {
+                expect(res).to.have.status(200);
+                expect(res.text).to.be.equal(text);
+                isTestFinished3 = true;
+            });
+
+        expect(isTestFinished1).is.true;
+        expect(isTestFinished2).is.true;
+        expect(isTestFinished3).is.true;
     });
 
     it('should test breaking of promises chain', async () => {
@@ -201,7 +238,7 @@ describe('YAPS test', () => {
 
         expect(isTestOk).is.true;
 
-        return expect(isTestFinished).is.true;
+        expect(isTestFinished).is.true;
     });
 
     it('should test all', async () => {
@@ -236,7 +273,7 @@ describe('YAPS test', () => {
                 isTestFinished = true;
             });
 
-        return expect(isTestFinished).is.true;
+        expect(isTestFinished).is.true;
     });
 
     it('should test race', async () => {
@@ -262,7 +299,7 @@ describe('YAPS test', () => {
                 isTestFinished = true;
             });
 
-        return expect(isTestFinished).is.true;
+        expect(isTestFinished).is.true;
     });
 
     it('should test race without reject', async () => {
@@ -288,7 +325,7 @@ describe('YAPS test', () => {
                 isTestFinished = true;
             });
 
-        return expect(isTestFinished).is.true;
+        expect(isTestFinished).is.true;
     });
 
 });
