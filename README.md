@@ -76,7 +76,7 @@ bin/www
     const app = require('../app');
 
     http
-        .createServer(app.resolve());
+        .createServer(app.resolve())
         .listen(parseInt(process.env.PORT || '3000', 10));
     
 package.json
