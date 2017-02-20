@@ -46,6 +46,7 @@ module.exports = class {
         this.promises.push(async ctx => {
             await Promise.all(fns.map(fn => fn(ctx)));
         });
+        return this;
     }
 
     race(fns) {
@@ -53,5 +54,6 @@ module.exports = class {
         this.promises.push(async ctx => {
             await Promise.race(fns.map(fn => fn(ctx)));
         });
+        return this;
     }
 };
