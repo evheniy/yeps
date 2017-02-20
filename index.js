@@ -36,10 +36,7 @@ module.exports = class {
             } catch (error) {
                 debug('Error');
                 debug(error);
-                if (error && this.error.length) {
-                    debug('Error handlers');
-                    await Promise.all(this.error.map(fn => fn(error, context)));
-                }
+                await Promise.all(this.error.map(fn => fn(error, context)));
             }
         };
     }

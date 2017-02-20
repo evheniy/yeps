@@ -208,10 +208,10 @@ describe('YAPS test', () => {
         expect(isTestFinished3).is.true;
     });
 
-    it('should test breaking of promises chain', async () => {
+    it('should test breaking of promises chain without catch', async () => {
 
         let isTestFinished = false;
-        let isTestOk = true;
+        let isTestOk = false;
 
         app.then(async ctx => {
             ctx.res.writeHead(200);
@@ -225,7 +225,7 @@ describe('YAPS test', () => {
         });
 
         app.catch(async () => {
-            isTestOk = false;
+            isTestOk = true;
         });
 
         await chai.request(http.createServer(app.resolve()))
@@ -237,7 +237,38 @@ describe('YAPS test', () => {
             });
 
         expect(isTestOk).is.true;
+        expect(isTestFinished).is.true;
+    });
 
+    it('should test breaking of promises chain with catch', async () => {
+
+        let isTestFinished = false;
+        let isTestOk = false;
+
+        app.then(async ctx => {
+            ctx.res.writeHead(200);
+            ctx.res.end('test');
+
+            return app.reject(123);
+        });
+
+        app.then(async () => {
+            isTestOk = false;
+        });
+
+        app.catch(async () => {
+            isTestOk = true;
+        });
+
+        await chai.request(http.createServer(app.resolve()))
+            .get('/')
+            .send()
+            .then(res => {
+                expect(res).to.have.status(200);
+                isTestFinished = true;
+            });
+
+        expect(isTestOk).is.true;
         expect(isTestFinished).is.true;
     });
 
