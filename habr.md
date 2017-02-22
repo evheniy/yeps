@@ -19,8 +19,8 @@
 и [Promise](https://habrahabr.ru/post/209662/). 
 Пытаясь использовать Promise в проектах на express, 
 а после и async / await с флагом для [node.js 7](https://habrahabr.ru/post/313658/) --harmony, 
-я наткнулся на интересный [фреймворк нового поколения](https://habrahabr.ru/post/301126/)
-- koa.js, а конкретно на его [вторую версию](https://github.com/koajs/koa/tree/v2.x).
+я наткнулся на интересный [фреймворк нового поколения](https://habrahabr.ru/post/301126/) - koa.js, 
+а конкретно на его [вторую версию](https://github.com/koajs/koa/tree/v2.x).
 
 Первая версия была создана с помощью [генераторов](https://habrahabr.ru/post/277033/) 
 и библиотеки [CO](https://github.com/tj/co). 
@@ -33,16 +33,16 @@
 Авторы обеих библиотек express и koa одни и те же, неудивительно, что и подход остался таким же. 
 Я имею ввиду структуру промежуточного ПО. 
 Использовать подход из Ruby было полезно на этапе становления node.js, но современный node.js, 
-как и JS, имеет свои преимущества, красоту и элегантность.
+как и JS, имеет свои преимущества, красоту, элегантность...
 
-Немного теории…
+Немного теории:
 
 Node.js [http](https://nodejs.org/api/http.html#http_class_http_server) 
 ([https](https://nodejs.org/api/https.html#https_https_createserver_options_requestlistener)) 
 сервер наследует [net.Server](https://nodejs.org/api/net.html#net_class_net_server), 
 который реализовывает [EventEmitter](https://nodejs.org/api/events.html#events_class_eventemitter). 
 И все библиотеки (express, koa...) по сути являются обработчиками события 
-[server.on(‘request’)](https://nodejs.org/en/docs/guides/anatomy-of-an-http-transaction/). 
+[server.on('request')](https://nodejs.org/en/docs/guides/anatomy-of-an-http-transaction/). 
 Например:
 
     const http = require('http');
@@ -59,7 +59,7 @@ Node.js [http](https://nodejs.org/api/http.html#http_class_http_server)
       // такая же обработка события
     });
 
-И я представил, как должен выглядеть действительно “фреймворк нового поколения”.
+И я представил, как должен выглядеть действительно "фреймворк нового поколения":
 
     const server = http.createServer( (req, res) => {
       Promise.resolve({ req, res }).then(ctx => {
@@ -75,10 +75,10 @@ Node.js [http](https://nodejs.org/api/http.html#http_class_http_server)
 и постоянной обработки ошибок на всех уровнях, как, например, реализовано в express. 
 Также, это позволяет применить 
 [Promise.all()](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Promise/all) 
-для “параллельного” выполнения [промежуточного ПО (middleware)](http://expressjs.com/ru/guide/using-middleware.html) 
+для "параллельного" выполнения [промежуточного ПО (middleware)](http://expressjs.com/ru/guide/using-middleware.html) 
 вместо последовательного. 
 
-И я сделал еще одну библиотеку… [YEPS](https://github.com/evheniy/yeps) - Yet Another Event Promised Server.
+И я сделал еще одну библиотеку: [YEPS](https://github.com/evheniy/yeps) - Yet Another Event Promised Server.
 
 Синтаксис YEPS передает всю простоту и элегантность архитектуры, основанной на обещаниях 
 (promise based design), например, параллельная обработка промежуточного ПО):
@@ -129,7 +129,6 @@ Node.js [http](https://nodejs.org/api/http.html#http_class_http_server)
 Как видим, параллельное выполнение показывает интересные результаты. 
 Хотя этого можно достичь в любом проекте, по моему мнению этот подход должен быть заложен в архитектуру, 
 в саму идею - не делать ни одного шага без тестирования производительности. 
-
 Например, ядро библиотеки - [yeps-promisify](https://github.com/evheniy/yeps-promisify), 
 использует array.slice(0) - наиболее 
 [быстрый метод копирования массива](http://stackoverflow.com/questions/3978492/javascript-fastest-way-to-duplicate-an-array-slice-vs-for-loop).
@@ -151,18 +150,18 @@ Node.js [http](https://nodejs.org/api/http.html#http_class_http_server)
 Больше не нужно собирать и анализировать статистику, думать какое правило поднять вверх,. 
 
 Но для полноценной production ready работы необходимо было решить проблему 
-“[курицы и яйца](https://ru.wikipedia.org/wiki/%D0%9F%D1%80%D0%BE%D0%B1%D0%BB%D0%B5%D0%BC%D0%B0_%D0%BA%D1%83%D1%80%D0%B8%D1%86%D1%8B_%D0%B8_%D1%8F%D0%B9%D1%86%D0%B0)” 
-- никто не будет использовать библиотеку без дополнительных пакетов, 
+"[курицы и яйца](https://ru.wikipedia.org/wiki/%D0%9F%D1%80%D0%BE%D0%B1%D0%BB%D0%B5%D0%BC%D0%B0_%D0%BA%D1%83%D1%80%D0%B8%D1%86%D1%8B_%D0%B8_%D1%8F%D0%B9%D1%86%D0%B0)" - никто 
+не будет использовать библиотеку без дополнительных пакетов, 
 и никто не будет писать пакеты к неиспользуемой библиотеке. 
 Здесь помогла [обертка](https://github.com/evheniy/yeps-express-wrapper) (wrapper), 
-позволяющая использовать промежуточное ПО express (middleware), 
+позволяющая использовать промежуточное ПО от express, 
 например [body-parser](https://github.com/expressjs/body-parser) или 
 [serve-favicon](https://github.com/expressjs/serve-favicon)... 
 
 Так же есть шаблон приложения - [yeps-boilerplate](https://github.com/evheniy/yeps-boilerplate), 
 позволяющий запустить новое приложение, просмотреть код, примеры…
 
-Надеюсь это исследование и результат будет полезен Вам, 
+Надеюсь это исследование и результат будет полезен, 
 может даже даже вдохновит на создание красивых, быстрых, возможно даже элегантных решений. 
 И конечно же идея тестировать производительность каждого шага должна лечь в основу 
 любого нового и существующего проекта.
