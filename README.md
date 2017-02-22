@@ -108,6 +108,7 @@ By default all app steps will be finished. Except one of them has rejected promi
     
 ## Packages
 
+* [Anatomy of an HTTP Transaction](https://nodejs.org/en/docs/guides/anatomy-of-an-http-transaction/) - node.js http server request documentation
 * [yeps-promisify](https://github.com/evheniy/yeps-promisify) - YEPS kernel
 * [yeps-benchmark](https://github.com/evheniy/yeps-benchmark) - performance comparison koa2, express and node http
 * [yeps-router](https://github.com/evheniy/yeps-router) - YEPS promise based router
