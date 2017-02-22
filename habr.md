@@ -158,6 +158,20 @@ Node.js [http](https://nodejs.org/api/http.html#http_class_http_server)
 например [body-parser](https://github.com/expressjs/body-parser) или 
 [serve-favicon](https://github.com/expressjs/serve-favicon)... 
 
+    const error = require('yeps-error');
+    const wrapper = require('yeps-express-wrapper');
+    
+    const bodyParser = require('body-parser');
+    const favicon = require('serve-favicon');
+    const path = require('path');
+    
+    app.then(
+        wrapper(favicon(path.join(__dirname, 'public', 'favicon.ico')))
+    ).all([
+        error(),
+        wrapper(bodyParser.json()),
+    ]);
+
 Так же есть шаблон приложения - [yeps-boilerplate](https://github.com/evheniy/yeps-boilerplate), 
 позволяющий запустить новое приложение, просмотреть код, примеры…
 
