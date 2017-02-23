@@ -78,10 +78,10 @@ Node.js [http](https://nodejs.org/api/http.html#http_class_http_server)
 для "параллельного" выполнения [промежуточного ПО (middleware)](http://expressjs.com/ru/guide/using-middleware.html) 
 вместо последовательного. 
 
-И я сделал еще одну библиотеку: [YEPS](https://github.com/evheniy/yeps) - Yet Another Event Promised Server.
+И так появилась еще одна библиотека: [YEPS](https://github.com/evheniy/yeps) - Yet Another Event Promised Server.
 
 Синтаксис YEPS передает всю простоту и элегантность архитектуры, основанной на обещаниях 
-(promise based design), например, параллельная обработка промежуточного ПО):
+(promise based design), например, параллельная обработка промежуточного ПО:
 
     const App = require('yeps');
     const app = new App();
@@ -116,18 +116,18 @@ Node.js [http](https://nodejs.org/api/http.html#http_class_http_server)
         ctx.res.end(err.message);
     });
 
-Для примера я написал пакеты [error](https://github.com/evheniy/yeps-error), 
+Для примера есть пакеты [error](https://github.com/evheniy/yeps-error), 
 [logger](https://github.com/evheniy/yeps-logger), [redis](https://github.com/evheniy/yeps-redis).
 
 Но самым удивительным была скорость работы. 
-Я написал сравнительный тест производительности - [yeps-benchmark](https://github.com/evheniy/yeps-benchmark), 
-где я сравнил производительность работы [YEPS](https://raw.githubusercontent.com/evheniy/yeps-benchmark/master/reports/yeps_middleware.txt) с 
+Можно запустить сравнительный тест производительности - [yeps-benchmark](https://github.com/evheniy/yeps-benchmark), 
+где сравнивается производительность работы [YEPS](https://raw.githubusercontent.com/evheniy/yeps-benchmark/master/reports/yeps_middleware.txt) с 
 [express](https://raw.githubusercontent.com/evheniy/yeps-benchmark/master/reports/express_middleware.txt), 
 [koa2](https://raw.githubusercontent.com/evheniy/yeps-benchmark/master/reports/koa2_middleware.txt) 
 и даже [node.js http](https://raw.githubusercontent.com/evheniy/yeps-benchmark/master/reports/http_middleware.txt).
 
 Как видим, параллельное выполнение показывает интересные результаты. 
-Хотя этого можно достичь в любом проекте, по моему мнению этот подход должен быть заложен в архитектуру, 
+Хотя этого можно достичь в любом проекте, этот подход должен быть заложен в архитектуру, 
 в саму идею - не делать ни одного шага без тестирования производительности. 
 Например, ядро библиотеки - [yeps-promisify](https://github.com/evheniy/yeps-promisify), 
 использует array.slice(0) - наиболее 
@@ -137,6 +137,17 @@ Node.js [http](https://nodejs.org/api/http.html#http_class_http_server)
 маршрутизатора (router, роутер), полностью созданного на Promise.all(). 
 Сама идея поймать (catch) нужный маршрут (route), нужное правило и соответственно 
 вернуть нужный обработчик лежит в основе Promise.all().
+
+    const Router = require('yeps-router');
+    const router = new Router();
+    
+    router.get('/').then(async ctx => {
+        ctx.res.writeHead(200);
+        ctx.res.end('homepage');     
+    }).post('/test/:id').then(async ctx => {
+        ctx.res.writeHead(200);
+        ctx.res.end(ctx.request.params.id);
+    });
 
 Вместо последовательного перебора всех правил можно одновременно  запустить проверку всех. 
 Этот момент не остался без тестирования производительности и 
@@ -180,9 +191,7 @@ Node.js [http](https://nodejs.org/api/http.html#http_class_http_server)
 И конечно же идея тестировать производительность каждого шага должна лечь в основу 
 любого нового и существующего проекта.
 
-P.S.: Не самая удачная попытка перевода часто используемых слов, таких как router, middleware… 
-И не судите строго, все таки я специалист по разработке (чаще с node.js), чем писатель. 
-Надеюсь на советы, идеи и конструктивную критику в комментариях.
+P.S.: Надеюсь на советы, идеи и конструктивную критику в комментариях.
 
 
 
