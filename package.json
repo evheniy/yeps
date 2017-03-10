@@ -1,6 +1,6 @@
 {
   "name": "yeps",
-  "version": "0.0.17",
+  "version": "1.0.0",
   "description": "Yet Another Event Promised Server",
   "main": "index.js",
   "scripts": {
@@ -8,8 +8,8 @@
     "lint:js": "./node_modules/.bin/eslint index.js tests",
     "test": "./node_modules/.bin/npm-run-all --parallel test:**",
     "test:security": "./node_modules/.bin/nsp check",
-    "test:code": "node --harmony ./node_modules/mocha/bin/_mocha tests --recursive",
-    "test:coverage": "node --harmony ./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- tests --recursive",
+    "test:code": "node ./node_modules/mocha/bin/_mocha tests --recursive",
+    "test:coverage": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- tests --recursive",
     "report": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
     "clear": "./node_modules/.bin/rimraf coverage",
     "precommit": "npm run lint && npm test",
@@ -40,8 +40,11 @@
   "files": [
     "index.js"
   ],
+  "engines": {
+    "node": ">=7.6.0"
+  },
   "dependencies": {
-    "yeps-promisify": "*"
+    "yeps-promisify": "^1.0.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",

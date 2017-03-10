@@ -82,7 +82,7 @@ bin/www
 package.json
 
     "scripts": {
-      "start": "node --harmony bin/www"
+      "start": "node bin/www"
     }
     
 ## Promise like middleware
