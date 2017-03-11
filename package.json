@@ -59,7 +59,7 @@
     "mocha-lcov-reporter": "^1.2.0",
     "npm-run-all": "^4.0.1",
     "nsp": "^2.6.2",
-    "promise-pause-timeout": "0.0.1",
+    "promise-pause-timeout": "^1.0.0",
     "rimraf": "^2.5.4"
   }
 }
