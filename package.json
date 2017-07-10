@@ -44,16 +44,17 @@
     "node": ">=7.6.0"
   },
   "dependencies": {
+    "debug": "^2.6.8",
     "yeps-promisify": "^1.0.0"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
+    "chai": "^4.0.2",
     "chai-http": "^3.0.0",
     "coveralls": "^2.11.16",
-    "debug": "^2.6.1",
-    "eslint": "^3.19.0",
-    "eslint-config-eslint": "^3.0.0",
-    "husky": "^0.13.4",
+    "eslint": "^4.2.0",
+    "eslint-config-airbnb-base": "^11.2.0",
+    "eslint-plugin-import": "^2.7.0",
+    "husky": "^0.14.3",
     "istanbul": "^1.1.0-alpha.1",
     "mocha": "^3.2.0",
     "mocha-lcov-reporter": "^1.2.0",

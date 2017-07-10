@@ -1,17 +1,11 @@
 {
-  "extends": "eslint",
+  "extends": "airbnb-base",
   "env": {
-    "es6": true,
     "node": true,
     "mocha": true
   },
-  "parserOptions": {
-    "ecmaVersion": 8,
-    "sourceType": "module"
-  },
   "rules": {
-    "indent": ["error", 4, {"SwitchCase": 1}],
-    "quotes": ["error", "single"],
+    "class-methods-use-this": 0,
     "no-unused-expressions": 0
   }
 }
