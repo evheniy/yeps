@@ -15,6 +15,7 @@ Simple promised node http request-response handler
 [![devDependency Status](https://david-dm.org/evheniy/yeps/dev-status.svg)](https://david-dm.org/evheniy/yeps#info=devDependencies)
 [![NSP Status](https://img.shields.io/badge/NSP%20status-no%20vulnerabilities-green.svg)](https://travis-ci.org/evheniy/yeps)
 
+[![Known Vulnerabilities](https://snyk.io/test/github/evheniy/yeps/badge.svg)](https://snyk.io/test/github/evheniy/yeps)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/evheniy/yeps/master/LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/evheniy/yeps.svg)](https://github.com/evheniy/yeps/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/evheniy/yeps.svg)](https://github.com/evheniy/yeps/network)
