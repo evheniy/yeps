@@ -4,14 +4,20 @@ const chaiHttp = require('chai-http');
 const http = require('http');
 const App = require('../index');
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.use(chaiHttp);
 let app;
+let server;
 
 describe('YAPS test', () => {
   beforeEach(() => {
     app = new App();
+    server = http.createServer(app.resolve());
+  });
+
+  afterEach(() => {
+    server.close();
   });
 
   it('should test promise', async () => {
@@ -22,11 +28,13 @@ describe('YAPS test', () => {
 
     app.then(async (ctx) => {
       expect(ctx.app).to.be.equal(app);
-      ctx.res.writeHead(200, { 'Content-Type': contentType });
+
+      ctx.res.statusCode = 200;
+      ctx.res.setHeader('Content-Type', contentType);
       ctx.res.end(text);
     });
 
-    await chai.request(http.createServer(app.resolve()))
+    await chai.request(server)
       .get('/')
       .send()
       .then((res) => {
@@ -48,11 +56,10 @@ describe('YAPS test', () => {
     let isTestFinished3 = false;
 
     app.then(async (ctx) => {
-      ctx.res.writeHead(200, { 'Content-Type': contentType });
+      ctx.res.statusCode = 200;
+      ctx.res.setHeader('Content-Type', contentType);
       ctx.res.end(text);
     });
-
-    const server = http.createServer(app.resolve());
 
     await chai.request(server)
       .get('/')
@@ -106,7 +113,7 @@ describe('YAPS test', () => {
       ctx.res.end(text);
     });
 
-    await chai.request(http.createServer(app.resolve()))
+    await chai.request(server)
       .get('/')
       .send()
       .then((res) => {
@@ -128,11 +135,11 @@ describe('YAPS test', () => {
     app.then(async () => Promise.reject(new Error(text)));
 
     app.catch(async (err, ctx) => {
-      ctx.res.writeHead(200);
+      ctx.res.statusCode = 200;
       ctx.res.end(err.message);
     });
 
-    await chai.request(http.createServer(app.resolve()))
+    await chai.request(server)
       .get('/')
       .send()
       .then((res) => {
@@ -154,11 +161,11 @@ describe('YAPS test', () => {
     });
 
     app.catch(async (err, ctx) => {
-      ctx.res.writeHead(200);
+      ctx.res.statusCode = 200;
       ctx.res.end(err.message);
     });
 
-    await chai.request(http.createServer(app.resolve()))
+    await chai.request(server)
       .get('/')
       .send()
       .then((res) => {
@@ -182,13 +189,13 @@ describe('YAPS test', () => {
     app.catch(async (err, ctx) => {
       isTestFinished1 = true;
 
-      ctx.res.writeHead(200);
+      ctx.res.statusCode = 200;
       ctx.res.end(err.message);
     }).catch(async () => {
       isTestFinished2 = true;
     });
 
-    await chai.request(http.createServer(app.resolve()))
+    await chai.request(server)
       .get('/')
       .send()
       .then((res) => {
@@ -207,7 +214,7 @@ describe('YAPS test', () => {
     let isTestOk = false;
 
     app.then(async (ctx) => {
-      ctx.res.writeHead(200);
+      ctx.res.statusCode = 200;
       ctx.res.end('test');
 
       return app.reject();
@@ -221,7 +228,7 @@ describe('YAPS test', () => {
       isTestOk = true;
     });
 
-    await chai.request(http.createServer(app.resolve()))
+    await chai.request(server)
       .get('/')
       .send()
       .then((res) => {
@@ -238,7 +245,7 @@ describe('YAPS test', () => {
     let isTestOk = false;
 
     app.then(async (ctx) => {
-      ctx.res.writeHead(200);
+      ctx.res.statusCode = 200;
       ctx.res.end('test');
 
       return app.reject(123);
@@ -252,7 +259,7 @@ describe('YAPS test', () => {
       isTestOk = true;
     });
 
-    await chai.request(http.createServer(app.resolve()))
+    await chai.request(server)
       .get('/')
       .send()
       .then((res) => {
@@ -285,7 +292,7 @@ describe('YAPS test', () => {
       ctx.res.end(text);
     });
 
-    await chai.request(http.createServer(app.resolve()))
+    await chai.request(server)
       .get('/')
       .send()
       .then((res) => {
@@ -304,16 +311,16 @@ describe('YAPS test', () => {
 
     app.race([
       async (ctx) => {
-        ctx.res.writeHead(200);
+        ctx.res.statusCode = 200;
         ctx.res.end('test');
       },
       async (ctx) => {
-        ctx.res.writeHead(200);
+        ctx.res.statusCode = 200;
         ctx.res.end('test');
       },
     ]);
 
-    await chai.request(http.createServer(app.resolve()))
+    await chai.request(server)
       .get('/')
       .send()
       .then((res) => {
@@ -333,12 +340,12 @@ describe('YAPS test', () => {
         throw new Error('test');
       },
       async (ctx) => {
-        ctx.res.writeHead(200);
+        ctx.res.statusCode = 200;
         ctx.res.end('test');
       },
     ]);
 
-    await chai.request(http.createServer(app.resolve()))
+    await chai.request(server)
       .get('/')
       .send()
       .then((res) => {

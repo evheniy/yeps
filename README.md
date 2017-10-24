@@ -60,13 +60,15 @@ app.js
     const app = module.exports = new App();
     
     app.then(async ctx => {
-      ctx.res.writeHead(200, {'Content-Type': 'text/plain'});
-      ctx.res.end('Ok');
+      ctx.res.statusCode = 200;
+      ctx.res.setHeader('Content-Type', 'application/json');
+      ctx.res.end('{"status":"OK"}');
     });
     
     app.catch(async (err, ctx) => {
-      ctx.res.writeHead(500);
-      ctx.res.end(err.message);
+      ctx.res.statusCode = 500;
+      ctx.res.setHeader('Content-Type', 'application/json');
+      ctx.res.end('{"error":true}');
     });
 
 bin/www
@@ -92,8 +94,9 @@ By default all app steps will be finished. Except one of them has rejected promi
 
     app.then(async ctx => {
       
-      ctx.res.writeHead(200);
-      ctx.res.end('test');
+      ctx.res.statusCode = 200;
+      ctx.res.setHeader('Content-Type', 'application/json');
+      ctx.res.end('{"status":"OK"}');
       
       return app.reject();
       
@@ -107,4 +110,38 @@ By default all app steps will be finished. Except one of them has rejected promi
     
     });
     
+## Using router
+
+    npm i -S yeps-router
+    
+app.js:
+
+    const App = require('yeps');    
+    const Router = require('yeps-router');
+    
+    const app = new App();
+    const router = new Router();
+    
+    router.get('/').then(async ctx => {
+      ctx.res.statusCode = 200;
+      ctx.res.setHeader('Content-Type', 'application/json');
+      ctx.res.end('{"status":"OK"}');     
+    });
+    
+    app.then(router.resolve());
+    
+## Using server
+
+    npm i -S yeps-server
+    
+app.js:
+
+    const App = require('yeps');
+    const server = require('yeps-server');
+
+    const app = new App();
+    
+    server.createHttpServer(app);
+    
+
 #### [YEPS documentation](http://yeps.info/)
