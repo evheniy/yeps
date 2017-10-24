@@ -102,11 +102,11 @@ By default all app steps will be finished. Except one of them has rejected promi
       
     }).then(async () => {
       
-      // it wont work
+      // it won't work
     
     }).catch(async () => {
     
-      // it wont work
+      // it won't work
     
     });
     
@@ -114,7 +114,7 @@ By default all app steps will be finished. Except one of them has rejected promi
 
     npm i -S yeps-router
     
-app.js:
+app.js
 
     const App = require('yeps');    
     const Router = require('yeps-router');
@@ -134,9 +134,11 @@ app.js:
 
     npm i -S yeps-server
     
-app.js:
+bin/www
 
-    const App = require('yeps');
+    #!/usr/bin/env node
+        
+    const app = require('../app');
     const server = require('yeps-server');
 
     const app = new App();
