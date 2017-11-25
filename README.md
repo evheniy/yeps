@@ -106,10 +106,9 @@ Simple promised node http request-response handler
 
     #!/usr/bin/env node
         
-    const app = require('../app');
     const server = require('yeps-server');
-
-    const app = new App();
+    
+    const app = require('../app');
     
     server.createHttpServer(app);
     
@@ -130,7 +129,6 @@ Simple promised node http request-response handler
       error(),
       logger(),
     ]);
-    
     
 
 #### [YEPS documentation](http://yeps.info/)
