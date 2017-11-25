@@ -22,56 +22,32 @@ Simple promised node http request-response handler
 [![GitHub issues](https://img.shields.io/github/issues/evheniy/yeps.svg)](https://github.com/evheniy/yeps/issues)
 [![Twitter](https://img.shields.io/twitter/url/https/github.com/evheniy/yeps.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=%5Bobject%20Object%5D)
 
-
-
-
-Node http server is simple and fast. But it works with callbacks:
-
-    const http = require('http');
     
-    const server = http.createServer( (req, res) => {
-      res.writeHead(200, {'Content-Type': 'text/plain'});
-      res.end('okay');
-    });
-
-If we want to use promise (and async await):
-
-    const http = require('http');
-        
-    const server = http.createServer( (req, res) => {
-      Promise.resolve({ req, res })
-        .then(ctx => {
-          
-            ctx.res.writeHead(200, {'Content-Type': 'text/plain'});
-            ctx.res.end('okay');
-          
-            return ctx;
-        });
-    });
-    
-## And the same with yeps:
+## How to install
 
     npm i -S yeps
 
-app.js
+## How to use
+
+#### app.js
 
     const App = require('yeps');
     
     const app = module.exports = new App();
     
-    app.then(async ctx => {
+    app.then(async (ctx) => {
       ctx.res.statusCode = 200;
       ctx.res.setHeader('Content-Type', 'application/json');
       ctx.res.end('{"status":"OK"}');
     });
     
-    app.catch(async (err, ctx) => {
+    app.catch(async (error, ctx) => {
       ctx.res.statusCode = 500;
       ctx.res.setHeader('Content-Type', 'application/json');
-      ctx.res.end('{"error":true}');
+      ctx.res.end(JSON.stringify({ error }));
     });
 
-bin/www
+#### bin/www
 
     #!/usr/bin/env node
     
@@ -79,50 +55,42 @@ bin/www
     const app = require('../app');
 
     http
-        .createServer(app.resolve())
-        .listen(parseInt(process.env.PORT || '3000', 10));
+      .createServer(app.resolve())
+      .listen(parseInt(process.env.PORT || '3000', 10));
     
-package.json
+#### package.json
 
     "scripts": {
       "start": "node bin/www"
     }
     
-## Promise like middleware
+## Main flow
 
-By default all app steps will be finished. Except one of them has rejected promise:
-
-    app.then(async ctx => {
-      
+    app.then(async (ctx) => {
       ctx.res.statusCode = 200;
       ctx.res.setHeader('Content-Type', 'application/json');
       ctx.res.end('{"status":"OK"}');
       
-      return app.reject();
-      
+      return Promise.reject();
     }).then(async () => {
-      
       // it won't work
-    
     }).catch(async () => {
-    
       // it won't work
-    
     });
     
 ## Using router
 
     npm i -S yeps-router
     
-app.js
+#### app.js
 
-    const App = require('yeps');    
+    const App = require('yeps');
     const Router = require('yeps-router');
     
-    const app = new App();
+    const app = module.exports = new App();
     const router = new Router();
     
-    router.get('/').then(async ctx => {
+    router.get('/').then(async (ctx) => {
       ctx.res.statusCode = 200;
       ctx.res.setHeader('Content-Type', 'application/json');
       ctx.res.end('{"status":"OK"}');     
@@ -134,7 +102,7 @@ app.js
 
     npm i -S yeps-server
     
-bin/www
+#### bin/www
 
     #!/usr/bin/env node
         
@@ -144,6 +112,25 @@ bin/www
     const app = new App();
     
     server.createHttpServer(app);
+    
+## Error handler
+
+    npm i -S yeps-error yeps-logger
+    
+#### app.js
+
+    const App = require('yeps');
+    
+    const error = require('yeps-error');
+    const logger = require('yeps-logger');
+    
+    const app = module.exports = new App();
+    
+    app.all([
+      error(),
+      logger(),
+    ]);
+    
     
 
 #### [YEPS documentation](http://yeps.info/)

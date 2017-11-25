@@ -1,5 +1,5 @@
-const promisify = require('yeps-promisify');
 const debug = require('debug')('yeps:server');
+const promisify = require('yeps-promisify');
 
 module.exports = class {
   constructor() {
