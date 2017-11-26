@@ -1,4 +1,4 @@
-const debug = require('debug')('yeps:server');
+const debug = require('debug')('yeps:core');
 const promisify = require('yeps-promisify');
 
 module.exports = class {
@@ -25,29 +25,34 @@ module.exports = class {
     return this;
   }
 
-  reject() {
+  reject(message) {
     debug('Reject');
 
-    return Promise.reject();
+    return Promise.reject(message);
   }
 
   resolve() {
     debug('Server started');
 
     return async (req, res) => {
-      const context = { req, res, app: this };
+      debug('Request');
 
-      debug(context);
+      const app = this;
+      const context = { req, res, app };
 
       try {
         await promisify(context, this.promises);
-        debug('End promisify');
+        debug('Promises length:', this.promises.length);
       } catch (error) {
-        debug('Error');
-        debug(error);
+        debug('Error:', error);
 
-        await Promise.all(this.error.map(fn => fn(error, context)));
+        if (error) {
+          debug('Running error handler');
+
+          await Promise.all(this.error.map(fn => fn(error, context)));
+        }
       }
+      debug('End promisify');
     };
   }
 

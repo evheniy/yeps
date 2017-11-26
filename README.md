@@ -64,7 +64,7 @@ Simple promised node http request-response handler
       "start": "node bin/www"
     }
     
-## Main flow
+## Breaking chain
 
     app.then(async (ctx) => {
       ctx.res.statusCode = 200;

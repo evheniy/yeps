@@ -10,7 +10,7 @@ chai.use(chaiHttp);
 let app;
 let server;
 
-describe('YAPS test', () => {
+describe('YEPS test', () => {
   beforeEach(() => {
     app = new App();
     server = http.createServer(app.resolve());
@@ -211,7 +211,7 @@ describe('YAPS test', () => {
 
   it('should test breaking of promises chain without catch', async () => {
     let isTestFinished = false;
-    let isTestOk = false;
+    let isTestOk = true;
 
     app.then(async (ctx) => {
       ctx.res.statusCode = 200;
@@ -225,7 +225,38 @@ describe('YAPS test', () => {
     });
 
     app.catch(async () => {
-      isTestOk = true;
+      isTestOk = false;
+    });
+
+    await chai.request(server)
+      .get('/')
+      .send()
+      .then((res) => {
+        expect(res).to.have.status(200);
+        isTestFinished = true;
+      });
+
+    expect(isTestOk).is.true;
+    expect(isTestFinished).is.true;
+  });
+
+  it('should test breaking of promises chain without catch with promise', async () => {
+    let isTestFinished = false;
+    let isTestOk = true;
+
+    app.then(async (ctx) => {
+      ctx.res.statusCode = 200;
+      ctx.res.end('test');
+
+      return Promise.reject();
+    });
+
+    app.then(async () => {
+      isTestOk = false;
+    });
+
+    app.catch(async () => {
+      isTestOk = false;
     });
 
     await chai.request(server)
@@ -248,14 +279,47 @@ describe('YAPS test', () => {
       ctx.res.statusCode = 200;
       ctx.res.end('test');
 
-      return app.reject(123);
+      return app.reject(new Error('test'));
     });
 
     app.then(async () => {
       isTestOk = false;
     });
 
-    app.catch(async () => {
+    app.catch(async (err) => {
+      expect(err.message).to.be.equal('test');
+      isTestOk = true;
+    });
+
+    await chai.request(server)
+      .get('/')
+      .send()
+      .then((res) => {
+        expect(res).to.have.status(200);
+        isTestFinished = true;
+      });
+
+    expect(isTestOk).is.true;
+    expect(isTestFinished).is.true;
+  });
+
+  it('should test breaking of promises chain with catch with promise', async () => {
+    let isTestFinished = false;
+    let isTestOk = false;
+
+    app.then(async (ctx) => {
+      ctx.res.statusCode = 200;
+      ctx.res.end('test');
+
+      return Promise.reject(new Error('test'));
+    });
+
+    app.then(async () => {
+      isTestOk = false;
+    });
+
+    app.catch(async (err) => {
+      expect(err.message).to.be.equal('test');
       isTestOk = true;
     });
 
