@@ -11,8 +11,8 @@
     "test:coverage": "istanbul cover _mocha -- tests --recursive",
     "report": "cat ./coverage/lcov.info | coveralls",
     "clear": "rimraf coverage",
-    "precommit": "npm run lint && npm test",
-    "prepush": "npm run lint && npm test"
+    "precommit": "npm test",
+    "prepush": "npm test"
   },
   "repository": {
     "type": "git",
